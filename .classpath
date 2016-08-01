@@ -34,5 +34,7 @@
 	<classpathentry kind="lib" path="project-pages/WEB-INF/lib/spring-batch-infrastructure-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="project-pages/WEB-INF/lib/spring-batch-integration-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="project-pages/WEB-INF/lib/spring-batch-test-3.0.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="project-pages/WEB-INF/lib/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="project-pages/WEB-INF/lib/spring-test-4.1.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

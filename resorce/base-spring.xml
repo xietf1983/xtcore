@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="placeholderConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:init.properties</value>
+		</property>
+	</bean>
+	<bean id="lobHandler"      class="org.springframework.jdbc.support.lob.DefaultLobHandler"/> 
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource "
+		init-method="init" destroy-method="close">
+		<property name="url" ><value>${datasource.url}</value></property>
+		<property name="username"><value>${datasource.username}</value></property>
+		<property name="password"><value>${datasource.password}</value></property>
+		<property name="connectionProperties" ><value>${datasource.username}</value></property>
+		<property name="initialSize" value="20" />
+		<property name="minIdle" value="5" />
+		<property name="maxActive" value="50" />
+		<property name="maxWait" value="60000" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="select 1 from dual" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="false" />
+	</bean>
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:sqlMap-config.xml</value>
+		</property>
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="lobHandler" ref="lobHandler"/> 
+	</bean>
+	<bean id="basePersistence" abstract="true">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean
+		id="com.liveyc.data.persistence.GaVehViolationPersistence"
+		class="com.liveyc.data.persistence.GaVehViolationPersistence"
+		parent="basePersistence">
+	</bean>
+	<bean
+		id="com.liveyc.data.service.impl.GaVehViolationServiceImpl"
+		class="com.liveyc.data.service.impl.GaVehViolationServiceImpl">
+		<property name="persistence"
+			ref="com.liveyc.data.persistence.GaVehViolationPersistence" />
+	</bean>
+	
+	<bean
+		id="com.liveyc.data.service.GaVehViolationServiceUtil"
+		class="com.liveyc.data.service.GaVehViolationServiceUtil">
+		<property name="service"
+			ref="com.liveyc.data.service.impl.GaVehViolationServiceImpl" />
+	</bean>
+	
+	<bean
+		id="com.liveyc.mina.client.service.persitence.DKpersitence"
+		class="com.liveyc.mina.client.service.persitence.DKpersitence"
+		parent="basePersistence">
+	</bean>
+	<bean
+		id="com.liveyc.mina.client.service.impl.DKServiceImpl"
+		class="com.liveyc.mina.client.service.impl.DKServiceImpl">
+		<property name="persistence"
+			ref="com.liveyc.mina.client.service.persitence.DKpersitence" />
+	</bean>
+	
+	<bean
+		id="com.liveyc.mina.client.service.DKServiceUtil"
+		class="com.liveyc.mina.client.service.DKServiceUtil">
+		<property name="service"
+			ref="com.liveyc.mina.client.service.impl.DKServiceImpl" />
+	</bean>
+	<bean
+		id="com.lytx.webservice.datacopylast.service.persistence.DatacopyLastPersistence"
+		class="com.lytx.webservice.datacopylast.service.persistence.DatacopyLastPersistence"
+		parent="basePersistence">
+	</bean>
+	<bean
+		id="com.lytx.webservice.datacopylast.service.DatacopylastService.impl"
+		class="com.lytx.webservice.datacopylast.service.impl.DatacopylastServiceImpl">
+		<property name="persistence"
+			ref="com.lytx.webservice.datacopylast.service.persistence.DatacopyLastPersistence" />
+	</bean>
+	<bean
+		id="com.lytx.webservice.datacopylast.service.DatacopylastServiceUtil"
+		class="com.lytx.webservice.datacopylast.service.DatacopylastServiceUtil">
+		<property name="service"
+			ref="com.lytx.webservice.datacopylast.service.DatacopylastService.impl" />
+	</bean>
+</beans>
