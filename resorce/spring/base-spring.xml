@@ -16,6 +16,7 @@
 		</property>
 	</bean>
 	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+	<!-- 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass">
@@ -47,7 +48,26 @@
 		</property>
 		<property name="preferredTestQuery" value="select 1 from dual" />
 	</bean>
-	 
+	-->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource "
+		init-method="init" destroy-method="close">
+		<property name="url" ><value>${datasource.url}</value></property>
+		<property name="username"><value>${datasource.username}</value></property>
+		<property name="password"><value>${datasource.password}</value></property>
+		<property name="connectionProperties" ><value>${datasource.username}</value></property>
+		<property name="initialSize" value="20" />
+		<property name="minIdle" value="5" />
+		<property name="maxActive" value="50" />
+		<property name="maxWait" value="60000" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="select 1 from dual" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="false" />
+	</bean>
+
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
@@ -63,11 +83,11 @@
 		<aop:pointcut id="netmanagerServiceOperation" expression="bean(*Service)" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="netmanagerServiceOperation" />
 	</aop:config>
-	
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath:sqlmap/*.xml" />
-		 <property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
 	</bean>
-	
+
 </beans>
