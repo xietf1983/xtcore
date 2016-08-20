@@ -7,11 +7,32 @@ import com.xtsoft.kernel.service.base.model.BaseModel;
 public class LogEvent extends BaseModel<LogEvent> {
 	private long id;
 	private long userId;
+	private String userAccount;
+	public String getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
+	}
+
 	private String methods;
 	private Date operTime;
 	private String userIP;
 	private String className;
+	private String arguments;
+	private int sucess;
+	private String excetption;
 	private String description;
+	private long exeTime;
+
+	public long getExeTime() {
+		return exeTime;
+	}
+
+	public void setExeTime(long exeTime) {
+		this.exeTime = exeTime;
+	}
 
 	public long getId() {
 		return id;
@@ -59,6 +80,30 @@ public class LogEvent extends BaseModel<LogEvent> {
 
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public String getArguments() {
+		return arguments;
+	}
+
+	public void setArguments(String arguments) {
+		this.arguments = arguments;
+	}
+
+	public int getSucess() {
+		return sucess;
+	}
+
+	public void setSucess(int sucess) {
+		this.sucess = sucess;
+	}
+
+	public String getExcetption() {
+		return excetption;
+	}
+
+	public void setExcetption(String excetption) {
+		this.excetption = excetption;
 	}
 
 	public String getDescription() {

@@ -1,8 +1,12 @@
 package com.xtsoft.kernel.log.service;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
 import com.xtsoft.kernel.log.model.LogEvent;
 import com.xtsoft.kernel.log.persistence.LogPersistence;
 
+@Service("logService")
 public class LogService {
 	private LogPersistence persistence;
 
@@ -10,11 +14,11 @@ public class LogService {
 		return persistence;
 	}
 
-	public void setPersistence(LogPersistence persistence) {
+	public void setLogPersistence(LogPersistence persistence) {
 		this.persistence = persistence;
 	}
 
-	public void insertEntity(LogEvent model) {
+	public void saveEntity(LogEvent model) {
 		if (findByPrimaryKey(model.getId()) != null) {
 			getPersistence().updateEntity(model);
 		} else {
@@ -32,6 +36,12 @@ public class LogService {
 
 	public LogEvent findByPrimaryKey(long id) {
 		return (LogEvent) findByPrimaryKey(id);
+	}
+
+	public LogEvent create(long id) {
+		LogEvent model = new LogEvent();
+		model.setId(id);
+		return model;
 	}
 
 }

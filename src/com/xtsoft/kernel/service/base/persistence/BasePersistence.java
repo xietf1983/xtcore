@@ -4,10 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xtsoft.kernel.service.base.model.BaseModel;
 
 public class BasePersistence<T extends BaseModel<T>> extends SqlSessionDaoSupport {
+	@Autowired
+	public void setSqlSessionFactory(org.apache.ibatis.session.SqlSessionFactory sqlSessionFactory) {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
 	public void insert(String statement, T model) {
 		getSqlSession().insert(statement, model);
 	}
